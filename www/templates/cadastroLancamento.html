@@ -1,0 +1,25 @@
+<!-- Modal Cadastro-->
+<div class="modal-header">
+    <h4 class="modal-title" id="aboutModalLabel">Cadastro de Lançamentos</h4>
+</div>
+
+<div class="modal-body" ng-value="lancamento">
+    <table class="table">
+        <tr>
+            <input type="text" ng-model="lancamento.data" placeholder="Data">
+            <input type="text" ng-model="lancamento.descricao" placeholder="Descrição">
+            <input type="number" ng-model="lancamento.valor" placeholder="Valor">
+        </tr>
+    </table>
+    <div class="modal-footer">
+        <div class="btn-group">
+            <button type="button" class="btn btn-rounded btn-primary btn-gradient" ng-disabled="!lancamento.descricao ||!lancamento.data || !lancamento.valor " ng-click="salvarLancamento(lancamento)">
+                <i class="fa fa-save"> Salvar</i>
+            </button>
+            <button type="button" class="btn btn-rounded btn-primary btn-gradient" ng-click="cancel()">
+                <i class="fa fa-trash"> Cancelar</i>
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Fim Modal Cadastro-->

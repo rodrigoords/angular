@@ -1,0 +1,173 @@
+<html ng-app="outline">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Outline</title>
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/responsive-calendar.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/theme.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="fundo" ng-controller="financeiroCtrl">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <nav class="navbar navbar-inverse navbar-fixed-top">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                            aria-controls="navbar">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="index.html">Outline</a>
+                        </div>
+                        <div id="navbar" class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cadastros <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Cliente</a></li>
+                                        <li><a href="#">Carro</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="dropdown-header"></li>
+                                        <li><a href="#">Orçamento</a></li>
+                                        <li><a href="financeiro.html">Financeiro</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#" ng-click="openAboutModal()">Sobre</a>
+                                </li>
+                                <li><a href="#contact">Ajuda</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Conteudo -->
+    <div class="container">
+        <div class="input-group date" data-provide="datepicker">
+            <input type="text" class="form-control">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-th"></span>
+            </div>
+        </div>
+    </div>
+    <div class="conteiner">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 pln prn">
+                <div class="jumbotron">
+                    <div class="row mln mrn pbn pt20">
+                        <div class="col-md-4 pull-right text-right">
+                            <button type="button" class="btn btn-rounded btn-gradient btn-primary" data-toggle="modal" data-target="#calendarModal">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-8 pull-left text-left">
+                            <h3 class="mn lh40">{{app}}</h3>
+                        </div>
+                    </div>
+                    <table class="table table-striped">
+                        <tr>
+                            <th></th>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Valor</th>
+                        </tr>
+                        <tr ng-repeat="lancamento in lancamentos" ng-click="chk{{lancamento.id}}.checado = fStatusSelecao(lancamento)" ng-class="{'muda-cor':lancamento.selecionado}">
+                            <td>
+                                <input id="chk{{lancamento.id}}" type="checkbox" ng-checked="chk{{lancamento.id}}.checado">
+                            </td>
+                            <td> {{lancamento.data}} </td>
+                            <td> {{lancamento.descricao}} </td>
+                            <td> {{lancamento.valor}} </td>
+                        </tr>
+                        <tr>
+                            <th>Total</th>
+                            <th></th>
+                            <th></th>
+                            <th ng-bind="valorTotal(lancamentos)"></th>
+                        </tr>
+
+                    </table>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-rounded btn-primary btn-gradient" ng-click="OpenCadastroModal()">
+                                        <i class="fa fa-plus"> Novo</i>
+                                    </button>
+                                    <button type="button" class="btn btn-rounded btn-primary btn-gradient" ng-disabled="!hasUmLancamentoSelecionado()">
+                                        <i class="fa fa-pencil"> Editar</i>
+                                    </button>
+                                    <button type="button" class="btn btn-rounded btn-danger btn-gradient" ng-disabled="!hasLancamentoSelecionado(lancamentos)"
+                                    ng-click="apagarLacamentos(lancamentos)">
+                                        <i class="fa fa-trash"> Excluir</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+    <!-- Fim Conteudo -->
+    <!-- Modal calendar-->
+    <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" data-backdrop="true" aria-labelledby="calendarModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+
+                    <!-- Responsive calendar - START -->
+                    <div class="responsive-calendar" data-start-from-sunday="true">
+                        <div class="controls">
+                            <a class="pull-left" data-go="prev">
+                                <div class="btn btn-rounded btn-primary btn-gradient btn-primary"><i class="fa fa-arrow-circle-left"></i></div>
+                            </a>
+                            <h4><span data-head-year></span> <span data-head-month></span></h4>
+                            <a class="pull-right" data-go="next">
+                                <div class="btn btn-rounded btn-primary btn-gradient btn-primary"><i class="fa fa-arrow-circle-right"></i></div>
+                            </a>
+                        </div>
+                        <hr/>
+                        <div class="day-headers">
+                            <div class="day header">Seg</div>
+                            <div class="day header">Ter</div>
+                            <div class="day header">Qua</div>
+                            <div class="day header">Qui</div>
+                            <div class="day header">Sex</div>
+                            <div class="day header">Sab</div>
+                            <div class="day header">Dom</div>
+                        </div>
+                        <div class="days" data-group="days">
+                            <!-- the place where days will be generated -->
+                        </div>
+                    </div>
+                    <!-- Responsive calendar - END -->
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Fim Modal calendar-->
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/jQuery/jquery.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.js"></script>
+    <script src="js/responsive-calendar.min.js"></script>
+    <script src="js/ui-bootstrap-tpls-1.2.5.min.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/custom.js"></script>
+</body>
+
+</html>
